@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/";
+const API_URL = "http://localhost:3000";
 
 init();
 
@@ -15,11 +15,16 @@ function init() {
   resizeCalendar();
 
   insertCoursesToCalendar(minuteInterval);
+
+  const addCourseBtn = document.getElementById("courseModalSubmitBtn");
+  addCourseBtn.addEventListener("click", () => {
+    addCourse(minuteInterval);
+  });
 }
 
 async function getCourses() {
   try {
-    const result = await fetch(`${API_URL}courses`)
+    const result = await fetch(`${API_URL}/courses`)
       .then((response) => response.json())
       .then((data) => data);
     return result;
@@ -29,6 +34,13 @@ async function getCourses() {
 }
 
 async function drawCourseList() {
+  let temps = document.getElementById("courseList").children;
+  if (temps) {
+    for (let i = temps.length - 1; i >= 0; i--) {
+      temps[i].remove();
+    }
+  }
+
   const courses = await getCourses();
   if (!courses) return;
 
@@ -108,6 +120,64 @@ function resetCourseModal() {
   }
 }
 
+async function addCourse(minuteInterval) {
+  const code = document.getElementById("code").value;
+  const name = document.getElementById("name").value;
+  const instructor = document.getElementById("instructor").value;
+  const credit = document.getElementById("credit").value;
+
+  let course = {
+    code: code,
+    name: name,
+    instructor: instructor,
+    credit: credit,
+    schedule: [],
+  };
+
+  const scheduleSets = document.getElementsByClassName("scheduleSets");
+  for (let i = 0; i < scheduleSets.length; i++) {
+    const CRN = scheduleSets[i].querySelector(".CRN").value;
+    const classroom = scheduleSets[i].querySelector(".classroom").value;
+    const classType = scheduleSets[i].querySelector(".classType").value;
+    const formattedClassType =
+      classType.charAt(0).toUpperCase() + classType.slice(1);
+    const day = scheduleSets[i].querySelector(".day").value.toUpperCase();
+    const startTime = scheduleSets[i].querySelector(".startTime").value;
+    const endTime = scheduleSets[i].querySelector(".endTime").value;
+    const formattedTime = timeformatter(startTime, endTime);
+    course["schedule"][i] = {
+      CRN: CRN,
+      classroom: classroom,
+      classType: formattedClassType,
+      day: day,
+      time: formattedTime,
+    };
+  }
+
+  $.ajax({
+    type: "POST",
+    url: `${API_URL}/courses`,
+    data: JSON.stringify(course),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: (result) => console.log(result),
+    complete: () => {
+      document.getElementById("courseModalCloseBtn").click();
+      drawCourseList();
+      insertCoursesToCalendar(minuteInterval);
+    },
+    error: (error) => console.log(error),
+  });
+}
+
+function timeformatter(startTime, endTime) {
+  const startHour = startTime.slice(0, 2);
+  const startMinute = startTime.slice(3);
+  const endHour = endTime.slice(0, 2);
+  const endMinute = endTime.slice(3);
+  return startHour + startMinute + "-" + endHour + endMinute;
+}
+
 function drawWeeklyCalendar() {
   const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
@@ -166,7 +236,7 @@ function resizeCalendar() {
 
 async function getCourseSchedules() {
   try {
-    const result = await fetch(`${API_URL}courseSchedules`)
+    const result = await fetch(`${API_URL}/courseSchedules`)
       .then((response) => response.json())
       .then((data) => data);
     return result;
