@@ -6,6 +6,17 @@ span,
 a {
   margin: 0px;
 }
+fieldset {
+  border: 1px solid #0000002d !important;
+  border-radius: 10px;
+  margin-top: 20px !important;
+  padding: 5px 15px 15px 15px !important;
+}
+legend {
+  display: inline-block;
+  margin: 0px;
+  font-size: 1.2rem !important;
+}
 table {
   table-layout: fixed;
   text-align: center;
@@ -58,6 +69,29 @@ h6 {
 }
 .modal-footer {
   justify-content: space-between !important;
+}
+#legendWrapper {
+  border-bottom: 1px solid #0000004d;
+  display: flex;
+  justify-content: space-between;
+}
+#addCourseScheduleBtn {
+  width: 50%;
+  margin-bottom: 0.5rem;
+  font-size: small;
+}
+.scheduleSets {
+  border: 1px solid #0000002d;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0px;
+}
+.deleteCourseScheduleBtnDivs {
+  display: flex;
+  justify-content: end;
+}
+.deleteCourseScheduleBtns {
+  font-size: small;
 }
 
 @media (max-width: 992px) {

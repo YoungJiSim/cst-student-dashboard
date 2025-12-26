@@ -15,10 +15,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </head>
   <body class="container">
+    <!-- Header -->
     <header class="jumbotron">
       <h2>BCIT CST Term2 Dashboard</h2>
     </header>
+
+    <!-- Main Body -->
     <main id="mainBody">
+      <!-- Left Section -->
       <section id="leftSection" class="card sections">
         <div id="leftSectionHeader" class="card-header sectionHeaders">
           <h4 class="sectionHeaderH4s">
@@ -37,7 +41,9 @@
           <ul id="courseList" class="list-group list-group-flush"></ul>
         </div>
       </section>
+
       <section id="rightSection">
+        <!-- Top Section -->
         <section id="topSection" class="card sections">
           <div id="topSectionHeader" class="card-header sectionHeaders">
             <h4 class="sectionHeaderH4s">
@@ -58,6 +64,8 @@
             </ul>
           </div>
         </section>
+
+        <!-- Bottom Section -->
         <section id="bottomSection" class="card sections">
           <div id="bottomSectionHeader" class="card-header sectionHeaders">
             <h4 class="sectionHeaderH4s">Weekly Schedule</h4>
@@ -71,6 +79,7 @@
         </section>
       </section>
     </main>
+
     <!-- Course Modal -->
     <div id="courseModal" class="modal">
       <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -80,24 +89,82 @@
             <h4 class="modal-title">Add Course</h4>
             <button
               type="button"
+              id="courseModalCloseBtn"
               class="btn-close"
               data-bs-dismiss="modal"
             ></button>
           </div>
+
           <!-- Course Modal Body -->
-          <div class="modal-body">Course Form goes here...</div>
-          <!-- Course Modal Footer -->
-          <div class="modal-footer">
-            <input type="reset" class="btn" />
-            <input
-              id="courseModalSubmitBtn"
-              type="submit"
-              class="btn btn-secondary"
-            />
-          </div>
+          <form id="courseForm" onsubmit="return false">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col">
+                  <label for="code" class="form-label">Course Code</label>
+                  <input
+                    type="text"
+                    id="code"
+                    name="code"
+                    class="form-control form-control-sm"
+                  />
+                </div>
+                <div class="col">
+                  <label for="name" class="form-label">Course Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-control form-control-sm"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label for="instructor" class="form-label">Instructor </label>
+                  <input
+                    type="text"
+                    id="instructor"
+                    name="instructor"
+                    class="form-control form-control-sm"
+                  />
+                </div>
+                <div class="col">
+                  <label for="credit" class="form-label">Credit</label>
+                  <input
+                    type="number"
+                    id="credit"
+                    name="credit"
+                    class="form-control form-control-sm"
+                  />
+                </div>
+              </div>
+              <fieldset id="scheduleFieldset">
+                <div id="legendWrapper">
+                  <legend>Schedule</legend>
+                  <button
+                    type="button"
+                    id="addCourseScheduleBtn"
+                    class="btn btn-outline-dark btn-sm"
+                  >
+                    Add Schedule
+                  </button>
+                </div>
+              </fieldset>
+            </div>
+            <!-- Course Modal Footer -->
+            <div class="modal-footer">
+              <input id="courseModalResetBtn" type="reset" class="btn" />
+              <input
+                id="courseModalSubmitBtn"
+                type="submit"
+                class="btn btn-secondary"
+              />
+            </div>
+          </form>
         </div>
       </div>
     </div>
+
     <!-- JavaScript -->
     <script src="./js/script.js"></script>
   </body>

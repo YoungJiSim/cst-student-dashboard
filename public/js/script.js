@@ -4,6 +4,13 @@ init();
 
 function init() {
   drawCourseList();
+  addCourseScheduleInputs();
+  const addCourseScheduleBtn = document.getElementById("addCourseScheduleBtn");
+  addCourseScheduleBtn.addEventListener("click", addCourseScheduleInputs);
+
+  const courseModalCloseBtn = document.getElementById("courseModalCloseBtn");
+  courseModalCloseBtn.addEventListener("click", resetCourseModal);
+
   const minuteInterval = drawWeeklyCalendar();
   resizeCalendar();
 
@@ -35,6 +42,70 @@ async function drawCourseList() {
     courseLi.innerHTML = `<div class="courseCodesAndNames"><span>${code} </span><h6>${name}</h6><div>`;
     courseList.append(courseLi);
   });
+}
+
+function addCourseScheduleInputs() {
+  const scheduleSets = document.createElement("div");
+  scheduleSets.className = "scheduleSets";
+  scheduleSets.innerHTML = `<div class="row">
+              <div class="col">
+                <label for="CRN" class="form-label">CRN</label>
+                <input type="text" class="CRN form-control form-control-sm" name="CRN" />
+              </div>
+              <div class="col">
+                <label for="classType" class="form-label">Class Type</label>
+                <select name="classType" class="classType form-control form-control-sm">
+                  <option value="lecture">Lecture</option>
+                  <option value="lab">Lab</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="day" class="form-label">Day</label>
+                <select name="day" class="day form-control form-control-sm">
+                  <option value="mon">MON</option>
+                  <option value="tue">TUE</option>
+                  <option value="wed">WED</option>
+                  <option value="thu">THU</option>
+                  <option value="fri">FRI</option>
+                </select>
+              </div>
+              <div class="col">
+                <label for="classroom" class="form-label">Classroom</label>
+                <input type="text" class="classroom form-control form-control-sm" name="classroom" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="startTime" class="form-label">Class Start</label>
+                <input type="time" class="startTime form-control form-control-sm" name="startTime" />
+              </div>
+              <div class="col">
+                <label for="endTime" class="form-label">Class End</label>
+                <input type="time" class="endTime form-control form-control-sm" name="endTime" />
+              </div>
+            </div>
+            <div class="deleteCourseScheduleBtnDivs">
+              <button type="button" class="btn btn-outline-danger btn-sm deleteCourseScheduleBtns" onClick="deleteSchedule(this)">
+              Delete Schedule
+              </button>
+            </div>`;
+
+  const scheduleFieldset = document.getElementById("scheduleFieldset");
+  scheduleFieldset.append(scheduleSets);
+}
+
+function deleteSchedule(self) {
+  self.parentNode.parentNode.remove();
+}
+
+function resetCourseModal() {
+  document.getElementById("courseForm").reset();
+  const scheduleSets = document.getElementsByClassName("scheduleSets");
+  for (let i = scheduleSets.length - 1; i > 0; i--) {
+    scheduleSets[i].remove();
+  }
 }
 
 function drawWeeklyCalendar() {
