@@ -16,7 +16,7 @@
   </head>
   <body class="container">
     <header class="jumbotron">
-      <h2>CST Term2 Dashboard</h2>
+      <h2>BCIT CST Term2 Dashboard</h2>
     </header>
     <main id="mainBody">
       <section id="leftSection" class="card sections">
@@ -24,7 +24,14 @@
           <h4 class="sectionHeaderH4s">
             <a class="nav-link" href="./pages/course.html">Course List</a>
           </h4>
-          <button id="addCourseBtn" class="btn">Add Course</button>
+          <button
+            id="addCourseBtn"
+            class="btn btn-sm btn-outline-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#courseModal"
+          >
+            Add Course
+          </button>
         </div>
         <div id="leftSectionBody" class="sectionBodies">
           <ul id="courseList" class="list-group list-group-flush"></ul>
@@ -36,7 +43,9 @@
             <h4 class="sectionHeaderH4s">
               <a class="nav-link" href="./pages/todo.html">Todo List</a>
             </h4>
-            <button id="addTodoBtn" class="btn">Add Todo</button>
+            <button id="addTodoBtn" class="btn btn-sm btn-outline-dark">
+              Add Todo
+            </button>
           </div>
           <div id="topSectionBody" class="sectionBodies">
             <ul id="courseList" class="list-group list-group-flush">
@@ -52,7 +61,9 @@
         <section id="bottomSection" class="card sections">
           <div id="bottomSectionHeader" class="card-header sectionHeaders">
             <h4 class="sectionHeaderH4s">Weekly Schedule</h4>
-            <button id="addScheduleBtn" class="btn">Add Schedule</button>
+            <button id="addScheduleBtn" class="btn btn-sm btn-outline-dark">
+              Add Schedule
+            </button>
           </div>
           <div id="bottomSectionBody" class="sectionBodies">
             <table id="weeklyCalendar" class="table table-bordered"></table>
@@ -60,7 +71,34 @@
         </section>
       </section>
     </main>
-    <!-- javaScript -->
+    <!-- Course Modal -->
+    <div id="courseModal" class="modal">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Course Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Add Course</h4>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <!-- Course Modal Body -->
+          <div class="modal-body">Course Form goes here...</div>
+          <!-- Course Modal Footer -->
+          <div class="modal-footer">
+            <input type="reset" class="btn" />
+            <input
+              id="courseModalSubmitBtn"
+              type="submit"
+              class="btn btn-secondary"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- JavaScript -->
     <script src="./js/script.js"></script>
   </body>
 </html>

@@ -32,7 +32,7 @@ async function drawCourseList() {
     const name = course.name;
     const courseLi = document.createElement("li");
     courseLi.className = "list-group-item";
-    courseLi.innerHTML = `<span>${code}</span><h6>${name}</h6>`;
+    courseLi.innerHTML = `<div class="courseCodesAndNames"><span>${code} </span><h6>${name}</h6><div>`;
     courseList.append(courseLi);
   });
 }

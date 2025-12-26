@@ -2,6 +2,10 @@
   box-sizing: border-box;
   margin: 5px;
 }
+span,
+a {
+  margin: 0px;
+}
 table {
   table-layout: fixed;
   text-align: center;
@@ -37,10 +41,23 @@ th {
   display: flex;
   justify-content: space-between;
 }
+.courseCodesAndNames span,
+h6 {
+  margin: 0px !important;
+  padding: 0px;
+}
+.courseCodesAndNames span {
+  padding-right: 10px;
+}
+.courseCodesAndNames h6 {
+  padding-top: 2px;
+}
 .courseNameSpans {
   font-weight: bold;
-  margin: 0px;
   padding: 0px !important;
+}
+.modal-footer {
+  justify-content: space-between !important;
 }
 
 @media (max-width: 992px) {
@@ -49,5 +66,9 @@ th {
   }
   .sectionHeaderH4s {
     text-align: left;
+  }
+  .courseCodesAndNames {
+    display: flex;
+    flex-direction: row;
   }
 }
