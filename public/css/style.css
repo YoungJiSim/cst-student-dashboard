@@ -18,18 +18,22 @@ legend {
   font-size: 1.2rem !important;
 }
 table {
+  border: 1px solid #b5b6b7 !important;
+  border-collapse: collapse;
   table-layout: fixed;
   text-align: center;
 }
 td {
   font-size: small;
 }
-table,
 tr,
-td,
-th {
+td {
   border: 1px solid #dee2e6 !important;
-  border-collapse: collapse;
+}
+th {
+  border: 1px solid #b5b6b7 !important;
+  background-color: #e2e3e5;
+  font-weight: normal;
 }
 .jumbotron {
   background-color: #eee;
@@ -52,6 +56,9 @@ th {
   display: flex;
   justify-content: space-between;
 }
+.list-group-item {
+  padding: 5px 10px !important;
+}
 .courseCodesAndNames span,
 h6 {
   margin: 0px !important;
@@ -63,7 +70,7 @@ h6 {
 .courseCodesAndNames h6 {
   padding-top: 2px;
 }
-.courseNameSpans {
+.calendarCourseSpans {
   font-weight: bold;
   padding: 0px !important;
 }

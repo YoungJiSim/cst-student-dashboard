@@ -273,8 +273,7 @@ async function insertCoursesToCalendar(minuteInterval) {
     const scheduleTd = document.getElementById(tdId);
     scheduleTd.setAttribute("rowspan", tdCount);
     scheduleTd.innerHTML = `
-      ${course.code}<br>
-      <span class="courseNameSpans">${course.name}</span><br>
+      <span class="calendarCourseSpans">${course.code}</span><br>
       ${course.classType}<br>
       ${course.time}<br>
       ${course.classroom}<br>
