@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+  margin: 5px;
+}
+
+table {
+  table-layout: fixed;
+  text-align: center;
+}
+.jumbotron {
+  background-color: #eee;
+  border-radius: 10px;
+  margin: 10px 0px 20px;
+  padding: 40px 10px 20px;
+  text-align: center;
+}
+#mainBody {
+  display: grid;
+  grid-template-columns: 28% auto;
+}
+#topSection {
+  margin-bottom: 10px;
+}
+#rightSection {
+  margin: 0px;
+}
+.sectionHeaders {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 992px) {
+  #mainBody {
+    grid-template-columns: 100%;
+  }
+  .sectionHeaderH4s {
+    text-align: left;
+  }
+}
