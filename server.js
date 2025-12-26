@@ -15,9 +15,13 @@ const db = new sqlite3.Database("./db/cst-dashboard.db", (error) => {
   console.log("Connected to the cst-dashboard database.");
 });
 
-app.use((req, res, next) => {
-  req.db = db;
-  next();
+app.get("/courses", (req, res) => {
+  const sql = "SELECT * FROM Courses";
+
+  db.all(sql, (error, rows) => {
+    if (error) console.log(error.message);
+    res.send(rows);
+  });
 });
 
 app.get("/courseSchedules", (req, res) => {

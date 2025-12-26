@@ -3,10 +3,38 @@ const API_URL = "http://localhost:3000/";
 init();
 
 function init() {
+  drawCourseList();
   const minuteInterval = drawWeeklyCalendar();
   resizeCalendar();
 
   insertCoursesToCalendar(minuteInterval);
+}
+
+async function getCourses() {
+  try {
+    const result = await fetch(`${API_URL}courses`)
+      .then((response) => response.json())
+      .then((data) => data);
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function drawCourseList() {
+  const courses = await getCourses();
+  if (!courses) return;
+
+  const courseList = document.getElementById("courseList");
+
+  courses.forEach((course) => {
+    const code = course.code;
+    const name = course.name;
+    const courseLi = document.createElement("li");
+    courseLi.className = "list-group-item";
+    courseLi.innerHTML = `<span>${code}</span><h6>${name}</h6>`;
+    courseList.append(courseLi);
+  });
 }
 
 function drawWeeklyCalendar() {
