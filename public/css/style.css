@@ -2,10 +2,19 @@
   box-sizing: border-box;
   margin: 5px;
 }
-
 table {
   table-layout: fixed;
   text-align: center;
+}
+td {
+  font-size: small;
+}
+table,
+tr,
+td,
+th {
+  border: 1px solid #dee2e6 !important;
+  border-collapse: collapse;
 }
 .jumbotron {
   background-color: #eee;
@@ -27,6 +36,11 @@ table {
 .sectionHeaders {
   display: flex;
   justify-content: space-between;
+}
+.courseNameSpans {
+  font-weight: bold;
+  margin: 0px;
+  padding: 0px !important;
 }
 
 @media (max-width: 992px) {
