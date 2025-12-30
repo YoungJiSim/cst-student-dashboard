@@ -50,7 +50,7 @@ async function main() {
         const classType = schedule.classType;
         const day = schedule.day;
         const time = schedule.time;
-        const scheduleSql = `INSERT INTO Schedules(CRN, classroom, classType, day, time, courseID) VALUES(${CRN}, "${classroom}", "${classType}", "${day}", "${time}", ${courseId})`;
+        const scheduleSql = `INSERT INTO CourseSchedules(CRN, classroom, classType, day, time, courseID) VALUES(${CRN}, "${classroom}", "${classType}", "${day}", "${time}", ${courseId})`;
         db.run(scheduleSql, function (error) {
           if (error) {
             console.log(error);
@@ -58,7 +58,7 @@ async function main() {
           }
           const scheduleId = this.lastID;
           console.log(
-            `A row has been inserted to Schedules with rowid ${scheduleId}`
+            `A row has been inserted to CourseSchedules with rowid ${scheduleId}`
           );
         });
       });
@@ -68,7 +68,7 @@ async function main() {
 
   app.get("/courseSchedules", (req, res) => {
     const sql =
-      "SELECT * FROM Courses, Schedules where Schedules.courseId = Courses.ID";
+      "SELECT * FROM Courses, CourseSchedules where CourseSchedules.courseId = Courses.ID";
 
     db.all(sql, (error, rows) => {
       if (error) console.log(error.message);
