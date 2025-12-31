@@ -197,12 +197,86 @@
           <form id="todoForm" onsubmit="return false">
             <div class="modal-body">
               <div class="row">
-                <div class="col"></div>
-                <div class="col"></div>
+                <div class="col">
+                  <label for="title" class="form-label">Title</label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    class="form-control"
+                  />
+                </div>
               </div>
               <div class="row">
-                <div class="col"></div>
-                <div class="col"></div>
+                <div class="col">
+                  <label for="courseName" class="form-label"
+                    >Related Course</label
+                  >
+                  <select name="courseName" id="courseName" class="form-select">
+                    <option value="none">No Course</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label for="priority" class="form-label">Priority</label>
+                  <select name="priority" id="priority" class="form-select">
+                    <option value="none">No Priority</option>
+                    <option value="high">High</option>
+                    <option value="middle">medium</option>
+                    <option value="low">low</option>
+                  </select>
+                </div>
+                <div class="col">
+                  <label for="recurrenceRule" class="form-label"
+                    >Repetition</label
+                  >
+                  <select
+                    name="recurrenceRule"
+                    id="recurrenceRule"
+                    class="form-select"
+                  >
+                    <option value="none">No Repeat</option>
+                    <option value="daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="biweekly">Biweekly</option>
+                    <option value="monthly">monthly</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label for="dueDate">Due Date</label>
+                  <input
+                    type="date"
+                    id="dueDate"
+                    name="dueDate"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col">
+                  <label for="dueTime" class="invisible">Due Time</label>
+                  <input
+                    type="time"
+                    id="dueTime"
+                    name="dueTime"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <label for="description" class="form-label"
+                    >Description</label
+                  >
+                  <textarea
+                    id="description"
+                    name="description"
+                    class="form-control"
+                    rows="3"
+                  ></textarea>
+                </div>
               </div>
             </div>
             <!-- Todo Modal Footer -->

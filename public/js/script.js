@@ -17,6 +17,12 @@ function init() {
     }
   });
 
+  addCourseSelectOptions();
+  const todoModalCloseBtn = document.getElementById("todoModalCloseBtn");
+  todoModalCloseBtn.addEventListener("click", (event) => {
+    resetModal(event.currentTarget);
+  });
+
   const minuteInterval = drawWeeklyCalendar();
   resizeCalendar();
 
@@ -70,18 +76,11 @@ function addCourseScheduleInputs() {
                 <label for="CRN" class="form-label">CRN</label>
                 <input type="text" class="CRN form-control form-control-sm" name="CRN" />
               </div>
-              <div class="col">
-                <label for="classType" class="form-label">Class Type</label>
-                <select name="classType" class="classType form-control form-control-sm">
-                  <option value="lecture">Lecture</option>
-                  <option value="lab">Lab</option>
-                </select>
-              </div>
             </div>
             <div class="row">
               <div class="col">
                 <label for="day" class="form-label">Day</label>
-                <select name="day" class="day form-control form-control-sm">
+                <select name="day" class="day form-select form-select-sm">
                   <option value="mon">MON</option>
                   <option value="tue">TUE</option>
                   <option value="wed">WED</option>
@@ -92,6 +91,13 @@ function addCourseScheduleInputs() {
               <div class="col">
                 <label for="classroom" class="form-label">Classroom</label>
                 <input type="text" class="classroom form-control form-control-sm" name="classroom" />
+              </div>
+              <div class="col">
+                <label for="classType" class="form-label">Class Type</label>
+                <select name="classType" class="classType form-select form-select-sm">
+                  <option value="lecture">Lecture</option>
+                  <option value="lab">Lab</option>
+                </select>
               </div>
             </div>
             <div class="row">
@@ -179,6 +185,23 @@ function timeformatter(startTime, endTime) {
   const endHour = endTime.slice(0, 2);
   const endMinute = endTime.slice(3);
   return startHour + startMinute + "-" + endHour + endMinute;
+}
+
+async function addCourseSelectOptions() {
+  const courses = await getCourses();
+  if (!courses) return;
+
+  const courseNameSelect = document.getElementById("courseName");
+  courses.forEach((course) => {
+    const code = course.code;
+    const name = course.name;
+    const codeNameStr = code + " " + name;
+
+    const option = document.createElement("option");
+    option.value = codeNameStr;
+    option.innerText = codeNameStr;
+    courseNameSelect.append(option);
+  });
 }
 
 function drawWeeklyCalendar() {
