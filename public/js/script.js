@@ -22,6 +22,8 @@ function init() {
   todoModalCloseBtn.addEventListener("click", (event) => {
     resetModal(event.currentTarget);
   });
+  const addTodoBtn = document.getElementById("todoModalSubmitBtn");
+  addTodoBtn.addEventListener("click", addTodo);
 
   const minuteInterval = drawWeeklyCalendar();
   resizeCalendar();
@@ -129,6 +131,10 @@ function resetModal(self) {
   form.reset();
 }
 
+function drawTodos() {
+  console.log("hello");
+}
+
 async function addCourse(minuteInterval) {
   const code = document.getElementById("code").value;
   const name = document.getElementById("name").value;
@@ -195,12 +201,51 @@ async function addCourseSelectOptions() {
   courses.forEach((course) => {
     const code = course.code;
     const name = course.name;
-    const codeNameStr = code + " " + name;
+    const codeNameStr = "[" + code + "] " + name;
 
     const option = document.createElement("option");
     option.value = codeNameStr;
     option.innerText = codeNameStr;
     courseNameSelect.append(option);
+  });
+}
+
+async function addTodo() {
+  const title = document.getElementById("title").value;
+  let relatedCourse = document.getElementById("courseName").value;
+  if (relatedCourse == "none") relatedCourse = "";
+  const courseArr = relatedCourse ? relatedCourse.split("]") : "";
+  const courseCode = relatedCourse ? courseArr[0].slice(1) : "";
+  const courseName = relatedCourse ? courseArr[1].trim() : "";
+  const priority = document.getElementById("priority").value;
+  const recurrenceRule = document.getElementById("recurrenceRule").value;
+  const dueDate = document.getElementById("dueDate").value;
+  const dueTime = document.getElementById("dueTime").value;
+  const description = document.getElementById("description").value;
+
+  let todo = {
+    title: title,
+    priority: priority,
+    recurrenceRule: recurrenceRule,
+    endDate: dueDate,
+    endTime: dueTime,
+    description: description,
+    courseCode: courseCode,
+    courseName: courseName,
+  };
+
+  $.ajax({
+    type: "POST",
+    url: `${API_URL}/todo`,
+    data: JSON.stringify(todo),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: (result) => console.log(result),
+    complete: () => {
+      document.getElementById("todoModalCloseBtn").click();
+      drawTodos();
+    },
+    error: (error) => console.log(error),
   });
 }
 

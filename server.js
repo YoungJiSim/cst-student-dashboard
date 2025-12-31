@@ -66,6 +66,51 @@ async function main() {
     res.status(200).send("sucessfully added");
   });
 
+  app.post("/todo", (req, res) => {
+    const todo = req.body;
+
+    const title = todo.title;
+    const priority = todo.priority;
+    const recurrenceRule = todo.recurrenceRule;
+    const endDate = todo.endDate;
+    const endTime = todo.endTime;
+    const description = todo.description;
+
+    const todoSql = `INSERT INTO Activities(type, title, description, priority, endDate, endTime, recurrenceRule) VALUES("todo", "${title}", "${description}", "${priority}", "${endDate}", "${endTime}", "${recurrenceRule}")`;
+
+    db.run(todoSql, function (error) {
+      if (error) {
+        console.log(error);
+        res.status(400).send(error);
+      }
+
+      const todoId = this.lastID;
+      console.log(`A row has been inserted to Activities with rowid ${todoId}`);
+
+      const code = todo.courseCode;
+      const name = todo.courseName;
+
+      if (name) {
+        const courseSql = `SELECT ID FROM Courses where code = "${code}" AND name = "${name}"`;
+        db.get(courseSql, (error, row) => {
+          if (error) console.log(error);
+
+          const courseId = row.ID;
+
+          const updateSql = `UPDATE Activities SET courseID =${courseId} WHERE ID = ${todoId}`;
+          db.run(updateSql, function (error) {
+            if (error) {
+              console.log(error);
+              res.status(400).send(error);
+            }
+            console.log(`Updated : ${this.changes}`);
+          });
+        });
+      }
+    });
+    res.status(200).send("sucessfully added");
+  });
+
   app.get("/courseSchedules", (req, res) => {
     const sql =
       "SELECT * FROM Courses, CourseSchedules where CourseSchedules.courseId = Courses.ID";
