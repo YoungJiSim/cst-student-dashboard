@@ -9,7 +9,13 @@ function init() {
   addCourseScheduleBtn.addEventListener("click", addCourseScheduleInputs);
 
   const courseModalCloseBtn = document.getElementById("courseModalCloseBtn");
-  courseModalCloseBtn.addEventListener("click", resetCourseModal);
+  courseModalCloseBtn.addEventListener("click", (event) => {
+    resetModal(event.currentTarget);
+    const scheduleSets = document.getElementsByClassName("scheduleSets");
+    for (let i = scheduleSets.length - 1; i > 0; i--) {
+      scheduleSets[i].remove();
+    }
+  });
 
   const minuteInterval = drawWeeklyCalendar();
   resizeCalendar();
@@ -112,12 +118,9 @@ function deleteSchedule(self) {
   self.parentNode.parentNode.remove();
 }
 
-function resetCourseModal() {
-  document.getElementById("courseForm").reset();
-  const scheduleSets = document.getElementsByClassName("scheduleSets");
-  for (let i = scheduleSets.length - 1; i > 0; i--) {
-    scheduleSets[i].remove();
-  }
+function resetModal(self) {
+  const form = self.parentElement.nextElementSibling;
+  form.reset();
 }
 
 async function addCourse(minuteInterval) {

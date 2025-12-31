@@ -50,17 +50,22 @@
             <h4 class="sectionHeaderH4s">
               <a class="nav-link" href="./pages/todo.html">Todo List</a>
             </h4>
-            <button id="addTodoBtn" class="btn btn-sm btn-outline-dark">
+            <button
+              id="addTodoBtn"
+              class="btn btn-sm btn-outline-dark"
+              data-bs-toggle="modal"
+              data-bs-target="#todoModal"
+            >
               Add Todo
             </button>
           </div>
           <div id="topSectionBody" class="sectionBodies">
             <ul id="courseList" class="list-group list-group-flush">
               <li class="list-group-item">
-                <input type="checkbox" /><span>Something to do</span>
+                <input type="checkbox" /> <span>Something to do</span>
               </li>
               <li class="list-group-item">
-                <input type="checkbox" /><span>Something to do</span>
+                <input type="checkbox" /> <span>Something to do</span>
               </li>
             </ul>
           </div>
@@ -167,6 +172,43 @@
                 type="submit"
                 class="btn btn-secondary"
               />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Todo Modal -->
+    <div id="todoModal" class="modal">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Todo Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Add Todo</h4>
+            <button
+              type="button"
+              id="todoModalCloseBtn"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <!-- Todo Modal Body -->
+          <form id="todoForm" onsubmit="return false">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+              </div>
+              <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+              </div>
+            </div>
+            <!-- Todo Modal Footer -->
+            <div class="modal-footer">
+              <input id="" type="reset" class="btn btn-outline-dark" />
+              <input id="" type="submit" class="btn btn-secondary" />
             </div>
           </form>
         </div>
