@@ -29,16 +29,7 @@ async function main() {
     });
   });
 
-  app.get("/todo", (req, res) => {
-    const sql = `SELECT * FROM Activities WHERE type = "todo"`;
-
-    db.all(sql, (error, rows) => {
-      if (error) console.log(error.message);
-      res.send(rows);
-    });
-  });
-
-  app.post("/courses", (req, res) => {
+  app.post("/course", (req, res) => {
     const course = req.body;
     const code = course.code;
     const name = course.name;
@@ -73,6 +64,15 @@ async function main() {
       });
     });
     res.status(200).send("sucessfully added");
+  });
+
+  app.get("/todos", (req, res) => {
+    const sql = `SELECT * FROM Activities WHERE type = "todo"`;
+
+    db.all(sql, (error, rows) => {
+      if (error) console.log(error.message);
+      res.send(rows);
+    });
   });
 
   app.post("/todo", (req, res) => {

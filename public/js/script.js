@@ -3,8 +3,12 @@ const API_URL = "http://localhost:3000";
 init();
 
 function init() {
+  // course list
   drawCourseList();
+
+  // course modal
   addCourseScheduleInputs();
+
   const addCourseScheduleBtn = document.getElementById("addCourseScheduleBtn");
   addCourseScheduleBtn.addEventListener("click", addCourseScheduleInputs);
 
@@ -17,26 +21,33 @@ function init() {
     }
   });
 
+  // todo list
   drawTodos();
+
+  // todo modal
   addCourseSelectOptions();
+
+  const addTodoBtn = document.getElementById("todoModalSubmitBtn");
+  addTodoBtn.addEventListener("click", addTodo);
+
   const todoModalCloseBtn = document.getElementById("todoModalCloseBtn");
   todoModalCloseBtn.addEventListener("click", (event) => {
     resetModal(event.currentTarget);
   });
-  const addTodoBtn = document.getElementById("todoModalSubmitBtn");
-  addTodoBtn.addEventListener("click", addTodo);
 
+  // weekly schedule
   const minuteInterval = drawWeeklyCalendar();
   resizeCalendar();
-
   insertCoursesToCalendar(minuteInterval);
 
+  // add course
   const addCourseBtn = document.getElementById("courseModalSubmitBtn");
   addCourseBtn.addEventListener("click", () => {
     addCourse(minuteInterval);
   });
 }
 
+// course list
 async function getCourses() {
   try {
     const result = await fetch(`${API_URL}/courses`)
@@ -72,6 +83,7 @@ async function drawCourseList() {
   });
 }
 
+// course modal
 function addCourseScheduleInputs() {
   const scheduleSets = document.createElement("div");
   scheduleSets.className = "scheduleSets";
@@ -128,11 +140,13 @@ function deleteSchedule(self) {
   self.parentNode.parentNode.remove();
 }
 
+// modal general
 function resetModal(self) {
   const form = self.parentElement.nextElementSibling;
   form.reset();
 }
 
+// add course
 async function addCourse(minuteInterval) {
   const code = document.getElementById("code").value;
   const name = document.getElementById("name").value;
@@ -169,7 +183,7 @@ async function addCourse(minuteInterval) {
 
   $.ajax({
     type: "POST",
-    url: `${API_URL}/courses`,
+    url: `${API_URL}/course`,
     data: JSON.stringify(course),
     dataType: "json",
     contentType: "application/json; charset=utf-8",
@@ -191,9 +205,10 @@ function timeformatter(startTime, endTime) {
   return startHour + startMinute + "-" + endHour + endMinute;
 }
 
+// todo list
 async function getTodos() {
   try {
-    const result = await fetch(`${API_URL}/todo`)
+    const result = await fetch(`${API_URL}/todos`)
       .then((response) => response.json())
       .then((data) => data);
     return result;
@@ -227,6 +242,7 @@ async function drawTodos() {
   });
 }
 
+// todo modal
 async function addCourseSelectOptions() {
   const courses = await getCourses();
   if (!courses) return;
@@ -246,6 +262,7 @@ async function addCourseSelectOptions() {
   });
 }
 
+// add todo
 async function addTodo() {
   const title = document.getElementById("title").value;
   const relatedCourse = document.getElementById("courseName");
@@ -283,6 +300,7 @@ async function addTodo() {
   });
 }
 
+// weekly schedule
 function drawWeeklyCalendar() {
   const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
@@ -339,6 +357,7 @@ function resizeCalendar() {
   observer.observe(calendarOuterBox);
 }
 
+// course schedules
 async function getCourseSchedules() {
   try {
     const result = await fetch(`${API_URL}/courseSchedules`)
