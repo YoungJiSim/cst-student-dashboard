@@ -29,6 +29,15 @@ async function main() {
     });
   });
 
+  app.get("/todo", (req, res) => {
+    const sql = `SELECT * FROM Activities WHERE type = "todo"`;
+
+    db.all(sql, (error, rows) => {
+      if (error) console.log(error.message);
+      res.send(rows);
+    });
+  });
+
   app.post("/courses", (req, res) => {
     const course = req.body;
     const code = course.code;
@@ -75,38 +84,17 @@ async function main() {
     const endDate = todo.endDate;
     const endTime = todo.endTime;
     const description = todo.description;
+    const courseId = todo.courseId ? todo.courseId : "NULL";
 
-    const todoSql = `INSERT INTO Activities(type, title, description, priority, endDate, endTime, recurrenceRule) VALUES("todo", "${title}", "${description}", "${priority}", "${endDate}", "${endTime}", "${recurrenceRule}")`;
+    const todoSql = `INSERT INTO Activities(type, title, description, priority, endDate, endTime, recurrenceRule, courseID) VALUES("todo", "${title}", "${description}", "${priority}", "${endDate}", "${endTime}", "${recurrenceRule}", ${courseId})`;
 
     db.run(todoSql, function (error) {
       if (error) {
-        console.log(error);
-        res.status(400).send(error);
+        console.log(error.message);
+        res.status(400).send(error.message);
       }
-
       const todoId = this.lastID;
       console.log(`A row has been inserted to Activities with rowid ${todoId}`);
-
-      const code = todo.courseCode;
-      const name = todo.courseName;
-
-      if (name) {
-        const courseSql = `SELECT ID FROM Courses where code = "${code}" AND name = "${name}"`;
-        db.get(courseSql, (error, row) => {
-          if (error) console.log(error);
-
-          const courseId = row.ID;
-
-          const updateSql = `UPDATE Activities SET courseID =${courseId} WHERE ID = ${todoId}`;
-          db.run(updateSql, function (error) {
-            if (error) {
-              console.log(error);
-              res.status(400).send(error);
-            }
-            console.log(`Updated : ${this.changes}`);
-          });
-        });
-      }
     });
     res.status(200).send("sucessfully added");
   });

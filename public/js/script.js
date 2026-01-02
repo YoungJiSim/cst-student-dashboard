@@ -17,6 +17,7 @@ function init() {
     }
   });
 
+  drawTodos();
   addCourseSelectOptions();
   const todoModalCloseBtn = document.getElementById("todoModalCloseBtn");
   todoModalCloseBtn.addEventListener("click", (event) => {
@@ -61,11 +62,12 @@ async function drawCourseList() {
   const courseList = document.getElementById("courseList");
 
   courses.forEach((course) => {
+    const courseId = course.ID;
     const code = course.code;
     const name = course.name;
     const courseLi = document.createElement("li");
     courseLi.className = "list-group-item";
-    courseLi.innerHTML = `<div class="courseCodesAndNames"><span>${code} </span><h6>${name}</h6><div>`;
+    courseLi.innerHTML = `<div id="${courseId}" class="courseCodesAndNames"><span>${code} </span><h6>${name}</h6><div>`;
     courseList.append(courseLi);
   });
 }
@@ -131,10 +133,6 @@ function resetModal(self) {
   form.reset();
 }
 
-function drawTodos() {
-  console.log("hello");
-}
-
 async function addCourse(minuteInterval) {
   const code = document.getElementById("code").value;
   const name = document.getElementById("name").value;
@@ -193,17 +191,55 @@ function timeformatter(startTime, endTime) {
   return startHour + startMinute + "-" + endHour + endMinute;
 }
 
+async function getTodos() {
+  try {
+    const result = await fetch(`${API_URL}/todo`)
+      .then((response) => response.json())
+      .then((data) => data);
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function drawTodos() {
+  let temps = document.getElementById("todoList").children;
+  if (temps) {
+    for (let i = temps.length - 1; i >= 0; i--) {
+      temps[i].remove();
+    }
+  }
+
+  const todos = await getTodos();
+  if (!todos) return;
+
+  const todoList = document.getElementById("todoList");
+
+  todos.forEach((todo) => {
+    const todoId = todo.ID;
+    const title = todo.title;
+
+    const todoLi = document.createElement("li");
+    todoLi.id = `${todoId}`;
+    todoLi.className = "list-group-item";
+    todoLi.innerHTML = `<input type="checkbox" /> <span>${title}</span>`;
+    todoList.append(todoLi);
+  });
+}
+
 async function addCourseSelectOptions() {
   const courses = await getCourses();
   if (!courses) return;
 
   const courseNameSelect = document.getElementById("courseName");
   courses.forEach((course) => {
+    const courseId = course.ID;
     const code = course.code;
     const name = course.name;
-    const codeNameStr = "[" + code + "] " + name;
+    const codeNameStr = code + " " + name;
 
     const option = document.createElement("option");
+    option.id = courseId;
     option.value = codeNameStr;
     option.innerText = codeNameStr;
     courseNameSelect.append(option);
@@ -212,11 +248,10 @@ async function addCourseSelectOptions() {
 
 async function addTodo() {
   const title = document.getElementById("title").value;
-  let relatedCourse = document.getElementById("courseName").value;
-  if (relatedCourse == "none") relatedCourse = "";
-  const courseArr = relatedCourse ? relatedCourse.split("]") : "";
-  const courseCode = relatedCourse ? courseArr[0].slice(1) : "";
-  const courseName = relatedCourse ? courseArr[1].trim() : "";
+  const relatedCourse = document.getElementById("courseName");
+  const selectedCourseIndex =
+    document.getElementById("courseName").selectedIndex;
+  const selectedCourseId = relatedCourse[selectedCourseIndex].id;
   const priority = document.getElementById("priority").value;
   const recurrenceRule = document.getElementById("recurrenceRule").value;
   const dueDate = document.getElementById("dueDate").value;
@@ -230,8 +265,7 @@ async function addTodo() {
     endDate: dueDate,
     endTime: dueTime,
     description: description,
-    courseCode: courseCode,
-    courseName: courseName,
+    courseId: selectedCourseId,
   };
 
   $.ajax({
